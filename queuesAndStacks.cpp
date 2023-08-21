@@ -89,6 +89,22 @@ std::stack<std::list<char *>> leerArvivo(std::string file_name, std::string& sub
     return stackPalabras;
 };
 
+void comienzoSubString(Directorio& dic){
+    int cont = 0;
+    std::stack<std::list<char*>> duplicadoPila = dic.getWords();
+    std::cout<<"Palabras que inician con "<<dic.get_substring()<<std::endl;
+    while(!duplicadoPila.empty()){
+        cont++;
+        std::list<char*>::iterator it2daDimension = duplicadoPila.top().begin();
+        for(;it2daDimension!=duplicadoPila.top().end();it2daDimension++){
+            if(strncmp(*it2daDimension,dic.get_substring(),strlen(dic.get_substring()))==0){
+                std::cout<<"Linea "<<cont<<": "<<*it2daDimension<<std::endl;
+            }
+        }
+        duplicadoPila.pop();
+    }
+}
+
 int main(){
     string file_name;
     cout<<"Ingrese nombre del archivo: ";
@@ -105,6 +121,8 @@ int main(){
     cout<<"filas: "<<d.getNum_rows()<<endl;
     cout<<"substr: "<<d.get_substring()<<endl;
 
+    Directorio dic = d;
+    
     int i = 0;
     while(!d.getWords().empty()){
         cout<<"Stack "<<i+1<<endl;
@@ -117,6 +135,8 @@ int main(){
         i++;
         cout<<"-------------------"<<endl;
     }
+
+    comienzoSubString(dic);
 
 }
 //g++ -std=c++11 -o testS Directorio.cxx queuesAndStacks.cpp
