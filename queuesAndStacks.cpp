@@ -91,6 +91,7 @@ std::stack<std::list<char *>> leerArvivo(std::string file_name, std::string& sub
 
 void comienzoSubString(Directorio& dic){
     int cont = 0;
+    int contP = 0;
     std::stack<std::list<char*>> duplicadoPila = dic.getWords();
     std::list<std::list<char*>> duplicadoLista;
     std::cout<<"Palabras que inician con "<<dic.get_substring()<<std::endl;
@@ -107,9 +108,36 @@ void comienzoSubString(Directorio& dic){
         for(;it2daDimension!=itDuplicadoLista->end();it2daDimension++){
             if(strncmp(*it2daDimension,dic.get_substring(),strlen(dic.get_substring()))==0){
                 std::cout<<"Linea "<<cont<<": "<<*it2daDimension<<std::endl;
+                contP++;
             }
         }
     }
+    std::cout<<"Cantidad de palabras: "<<contP<<std::endl;
+}
+
+void contieneSubcadena(const std::string& substring, int num_rows, std::stack<std::list<char*>>& wordStack) {
+    setlocale(LC_ALL, "Spanish");
+    cout << "\nCONTIENE SUBCADENA: " << endl;
+    cout << "num_rows: " << num_rows << endl;
+    cout << "substring: " << substring << endl;
+
+    int count = 0;
+    int lineNum = 1;
+
+    while (!wordStack.empty()) {
+        std::list<char*> listaActual = wordStack.top();
+        wordStack.pop();
+
+        for (char* word : listaActual) {
+            if (strstr(word, substring.c_str()) != NULL) {
+                count++;
+                cout << "Palabra: " << word << " en la linea " << lineNum << endl;
+            }
+        }
+        lineNum++;
+    }
+
+    cout << "Total de palabras que contienen la subcadena: " << count<<endl;
 }
 
 int main(){
@@ -130,20 +158,27 @@ int main(){
 
     Directorio dic = d;
     
+    std::stack<std::list<char*>>& wordStack = d.getWords();
+    std::stack<std::list<char*>> copyStack = wordStack; 
+
     int i = 0;
-    while(!d.getWords().empty()){
-        cout<<"Stack "<<i+1<<endl;
-        std::stack<std::list<char*>>& wordStack = d.getWords();
+    while(!wordStack.empty()) {
+        cout << "Stack " << i+1 << endl;
         std::list<char*> actualList = wordStack.top();
         wordStack.pop();
         for (char* s : actualList) {
             cout << s << endl;
         }
         i++;
-        cout<<"-------------------"<<endl;
+        cout << "-------------------" << endl;
     }
 
+    std::string localSubstring = std::string(d.get_substring());
+    int localNumRows = d.getNum_rows();
+    
     comienzoSubString(dic);
+    contieneSubcadena(localSubstring, localNumRows, copyStack);
+    return 0;
 
 }
 //g++ -std=c++11 -o testS Directorio.cxx queuesAndStacks.cpp
