@@ -92,16 +92,23 @@ std::stack<std::list<char *>> leerArvivo(std::string file_name, std::string& sub
 void comienzoSubString(Directorio& dic){
     int cont = 0;
     std::stack<std::list<char*>> duplicadoPila = dic.getWords();
+    std::list<std::list<char*>> duplicadoLista;
     std::cout<<"Palabras que inician con "<<dic.get_substring()<<std::endl;
     while(!duplicadoPila.empty()){
+        duplicadoLista.push_front(duplicadoPila.top());
+        duplicadoPila.pop();
+    }
+
+    std::list<std::list<char*>>::iterator itDuplicadoLista = duplicadoLista.begin();
+
+    for(;itDuplicadoLista!=duplicadoLista.end();itDuplicadoLista++){
         cont++;
-        std::list<char*>::iterator it2daDimension = duplicadoPila.top().begin();
-        for(;it2daDimension!=duplicadoPila.top().end();it2daDimension++){
+        std::list<char*>::iterator it2daDimension = itDuplicadoLista->begin();
+        for(;it2daDimension!=itDuplicadoLista->end();it2daDimension++){
             if(strncmp(*it2daDimension,dic.get_substring(),strlen(dic.get_substring()))==0){
                 std::cout<<"Linea "<<cont<<": "<<*it2daDimension<<std::endl;
             }
         }
-        duplicadoPila.pop();
     }
 }
 
