@@ -19,8 +19,8 @@ char * Directorio::get_substring(){
 
 void Directorio::setStack(std::stack<std::list<char*>>& stackP){
     this->words = stackP;
-};
+}
 
 std::stack<std::list<char*>>& Directorio::getWords(){
     return words;
-};
+}
