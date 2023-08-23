@@ -38,6 +38,19 @@ int contarEspacios(std::string line){
     return espacios;
 }
 
+char* leerPalabraAlReves(const char* word) {
+    int longitud = strlen(word);
+    char* palabraAlReves = new char[longitud + 1];
+
+    for (int i = 0; i < longitud; i++) {
+        palabraAlReves[i] = word[longitud - 1 - i];
+    }
+
+    palabraAlReves[longitud] = '\0';
+
+    return palabraAlReves;
+}
+
 quitarSignos(std::string& line){
     for(int i = 0 ; i < line.length() ; i++){
         if (ispunct(line[i])) {
@@ -166,7 +179,13 @@ int main(){
     cout<<"\nHay "<<contieneInv.size()<<" palabras que contienen: "<<SubcadenaInvertida(d.get_substring())<<endl;
     for(itResultado = contieneInv.begin() ; itResultado != contieneInv.end() ; itResultado++){
         cout<<"Linea "<<itResultado->getLinea()<<": "<<itResultado->getWord()<<endl;
+
+    // Imprimir la palabra al revés
+    char* palabraAlReves = leerPalabraAlReves(itResultado->getWord());
+    cout << "Palabra al revés: " << palabraAlReves << endl;
+    delete[] palabraAlReves; // Liberar la memoria
     }
+    
 
 }
 //g++ -std=c++11 -o testS Directorio.cxx Resultado.cxx queuesAndStacks.cpp
